@@ -6,6 +6,7 @@ from typing_extensions import TypedDict
 from langchain_openai.chat_models import ChatOpenAI
 import PyPDF2
 import io
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -31,9 +32,14 @@ def get_api_key() -> str:
     Raises:
         ConfigError: If API key is not found
     """
-    api_key = os.getenv("OPENAI_API_KEY")
-    if api_key is None:
-        raise ConfigError("OPENAI_API_KEY not found in environment variables")
+    try:
+        api_key = st.secrets["OPENAI_API_KEY"]
+    except (KeyError, TypeError):
+        api_key = os.getenv("OPENAI_API_KEY")
+        if api_key is None:
+            raise ConfigError(
+                "OPENAI_API_KEY not found in environment variables or Streamlit secrets"
+            )
     return api_key
 
 
@@ -76,10 +82,11 @@ class State(TypedDict):
     response: str
     error: Optional[str]
 
+
 def extract_text_from_pdf(pdf_file) -> str:
     """
     Extract text content from a PDF file using PyPDF2.
-    
+
     This function extracts text from uploaded PDF files for resume parsing.
     It handles potential issues with scanned or protected PDFs.
 
@@ -95,7 +102,7 @@ def extract_text_from_pdf(pdf_file) -> str:
     try:
         # Create a PDF reader object
         pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_file.getvalue()))
-        
+
         # Extract text from all pages
         text = ""
         for page_num in range(len(pdf_reader.pages)):
@@ -103,14 +110,14 @@ def extract_text_from_pdf(pdf_file) -> str:
             page_text = page.extract_text()
             if page_text:
                 text += page_text + "\n"
-        
+
         # Check if any text was extracted
         if not text.strip():
             logger.warning("No text extracted from PDF, may be scanned or protected")
             raise ConfigError(
                 "Could not extract text from the PDF. The file may be scanned or protected."
             )
-            
+
         return text
     except ImportError:
         logger.error("PyPDF2 not installed")
