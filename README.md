@@ -1,4 +1,4 @@
-# Recruitment Agency LangGraph Application
+# RecruitIQ LangGraph Application
 
 ## Overview
 
@@ -24,7 +24,7 @@ This enterprise-grade application leverages Large Language Models (LLMs) with La
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/Recruitment-Agency-LangGraph.git
+git clone https://github.com/yourusername/RecruitIQ.git
 cd Recruitment-Agency-LangGraph
 ```
 
