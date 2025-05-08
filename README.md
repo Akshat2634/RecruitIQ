@@ -25,7 +25,7 @@ This enterprise-grade application leverages Large Language Models (LLMs) with La
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/RecruitIQ.git
-cd Recruitment-Agency-LangGraph
+cd RecruitIQ
 ```
 
 2. Set up a virtual environment:
