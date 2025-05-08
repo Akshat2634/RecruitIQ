@@ -2,7 +2,7 @@ import streamlit as st
 import asyncio
 import logging
 from recruiter import RecruitmentWorkflow
-from config import ConfigError
+from config import ConfigError, extract_text_from_pdf
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -39,7 +39,7 @@ with st.sidebar:
     st.markdown(
         """
         1. Enter the job requirements
-        2. Enter the applicant's resume/CV
+        2. Enter the applicant's resume/CV or upload a PDF
         3. Click "Process Application"
         4. View the results and generated response
         """
@@ -64,16 +64,37 @@ with col1:
 
 with col2:
     st.subheader("Applicant Information")
-    applicant_data = st.text_area(
-        "Enter the applicant's resume/CV:",
-        height=300,
-        placeholder="""
-        Name: John Doe
-        Experience: 4 years as Python Developer
-        Skills: Python, TensorFlow, PyTorch, SQL
-        Projects: Developed ML models for customer segmentation
-        """,
-    )
+    
+    # Create tabs for text input and PDF upload
+    input_tab1, input_tab2 = st.tabs(["Text Input", "PDF Upload"])
+    
+    with input_tab1:
+        applicant_data = st.text_area(
+            "Enter the applicant's resume/CV:",
+            height=300,
+            placeholder="""
+            Name: John Doe
+            Experience: 4 years as Python Developer
+            Skills: Python, TensorFlow, PyTorch, SQL
+            Projects: Developed ML models for customer segmentation
+            """,
+        )
+    
+    with input_tab2:
+        uploaded_file = st.file_uploader("Upload applicant's resume (PDF)", type="pdf")
+        if uploaded_file is not None:
+            try:
+                with st.spinner("Extracting text from PDF..."):
+                    applicant_data = extract_text_from_pdf(uploaded_file)
+                st.success("PDF successfully processed!")
+                st.expander("Preview extracted text").write(applicant_data[:500] + "..." if len(applicant_data) > 500 else applicant_data)
+            except ConfigError as e:
+                st.error(f"Error processing PDF: {e}")
+                applicant_data = ""
+            except Exception as e:
+                st.error(f"Unexpected error processing PDF: {e}")
+                logger.error(f"PDF processing error: {str(e)}")
+                applicant_data = ""
 
 # Process button
 if st.button("Process Application", type="primary", use_container_width=True):

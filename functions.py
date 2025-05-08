@@ -26,12 +26,15 @@ async def categorize_experience(state: State) -> State:
     try:
         prompt = ChatPromptTemplate.from_template(
             """
-            Based on the following job application, categorize the applicant's experience level into one of the following categories:
-            - Entry Level: 0-2 years of relevant experience, limited professional projects, recent graduate
-            - Mid Level: 3-5 years of experience, demonstrated expertise in specific areas, led small projects
-            - Senior Level: 6+ years of experience, extensive project leadership, deep technical expertise, mentorship experience
+            [IDENTITY]
+            You are an expert hiring assistant. Based on the applicant's resume below, choose exactly one experience level:
             
-            Response Format: [Entry-Level, Mid-Level, Senior-Level]
+            - Entry-Level: 0-2 years relevant experience, limited professional projects, recent graduate.
+            - Mid-Level: 3-5 years of experience, demonstrated expertise, led small projects.
+            - Senior-Level: 6+ years of experience, extensive project leadership, deep technical expertise, mentorship.
+            
+            [STRICT GUIDELINE]
+            Response Format: Entry-Level, Mid-Level, Senior-Level
 
             Application:
             {application}
@@ -68,13 +71,15 @@ async def assess_skillset(state: State) -> State:
     try:
         prompt = ChatPromptTemplate.from_template(
             """
-            Based on the following job application, experience level and job requirements, assess the applicant's skillset and match it against the job requirements:
-        
-            - Match: The applicant's skills match the job requirements
-            - Partial Match: The applicant's skills partially match the job requirements
-            - No Match: The applicant's skills do not match the job requirements 
+            [IDENTITY]
+            You are an expert hiring assistant. Based on the applicant's resume, their experience level, and the job requirements below, choose exactly one skill match category:
             
-            Response Format: [Match, Partial-Match, No-Match]
+            - Match: Applicant's skills fully meet or exceed all requirements.
+            - Partial-Match: Applicant meets some but not all requirements.
+            - No-Match: Applicant does not meet the key requirements.
+            
+            [STRICT GUIDELINE]
+            Response Format: Match, Partial-Match, No-Match
 
             Experience Level: {experience_level}
 
@@ -122,15 +127,10 @@ async def schedule_hr_interview(state: State) -> State:
     try:
         prompt = ChatPromptTemplate.from_template(
             """
-            Based on the following job application, write a congratulatory email to the applicant:
+            You are an HR recruiter writing a professional invitation email. Use the information below. Output must start with “Subject: ” on its own line, followed by a blank line, then the email body. Do not include any commentary.
             
-            Write a warm and enthusiastic email congratulating the applicant on passing the initial screening.
-            Mention that their qualifications have impressed the hiring team and they are being invited for an HR interview.
-            
-            Include details about their experience level and how their skills align with the job requirements.
-            
-            Response Format:
-            - A professional congratulatory email with HR interview invitation
+            [STRICT GUIDELINE]
+            Subject: Invitation to HR Interview
             
             Experience Level: {experience_level}
             Skill Match: {skill_match}
@@ -176,15 +176,11 @@ async def schedule_technical_interview(state: State) -> State:
     try:
         prompt = ChatPromptTemplate.from_template(
             """
-            Based on the following job application, write a professional email to the applicant inviting them for a technical interview:
-            
-            Write a clear and professional email inviting the applicant for a technical interview.
-            Mention that their skills show potential alignment with the position requirements and the technical team would like to further assess their capabilities.
-            
-            Include details about their experience level and specific technical skills that caught your attention.
-            
-            Response Format:
-            - A professional email with technical interview invitation
+            [IDENTITY]
+            You are a technical recruiter writing a clear, professional invitation email. Output must start with “Subject: ” on its own line, followed by a blank line, then the email body. Do not include any commentary.
+
+            [STRICT GUIDELINE]
+            Subject: Invitation to Technical Interview
             
             Experience Level: {experience_level}
             Skill Match: {skill_match}
@@ -230,7 +226,11 @@ async def reject_applicant(state: State) -> State:
     try:
         prompt = ChatPromptTemplate.from_template(
             """
-            Based on the following job application, write a polite rejection letter:
+            [IDENTITY]
+            You are an HR representative writing a polite rejection email. Output must start with “Subject: ” on its own line, followed by a blank line, then the email body. Do not include any commentary.
+
+            [STRICT GUIDELINE]
+            Subject: Application Update
 
             Experience Level: {experience_level}
             Skill Match: {skill_match}
