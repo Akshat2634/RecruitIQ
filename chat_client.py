@@ -1,14 +1,15 @@
 import os
 from openai import OpenAI
+from dotenv import load_dotenv
 
-# Make sure you've set your API key in the environment:
-# export OPENAI_API_KEY="your_api_key_here"
+load_dotenv()
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def get_chat_response(user_text: str) -> str:
     response = client.chat.completions.create(
-        model="gpt-4o-mini", 
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": user_text},
@@ -21,6 +22,9 @@ def get_chat_response(user_text: str) -> str:
 
 
 if __name__ == "__main__":
-    user_input = "asx hekllkowrld"
-    reply = get_chat_response(user_input)
-    print("Assistant:", reply)
+    user_input = "Hello world"
+    try:
+        reply = get_chat_response(user_input)
+        print("Assistant:", reply)
+    except Exception as e:
+        print(f"Error: {e}")
