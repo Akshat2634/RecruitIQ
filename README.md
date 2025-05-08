@@ -12,6 +12,7 @@ This enterprise-grade application leverages Large Language Models (LLMs) with La
   - HR interview invitations for strong qualification matches
   - Technical assessment invitations for candidates meeting core requirements
   - Professional rejection communications for non-suitable candidates
+- **Streamlit Web Interface**: User-friendly UI for easy application processing and results visualization
 
 ## Technical Requirements
 
@@ -48,11 +49,31 @@ OPENAI_API_KEY=your_api_key_here
 
 ## Usage Guide
 
-Start the application:
+You can use the application in two ways:
+
+### Web Interface
+
+1. Start the Streamlit web application:
+
+```bash
+streamlit run ui.py
+```
+
+2. Open your browser and navigate to the local URL shown in the terminal (typically http://localhost:8501)
+
+3. Enter job requirements and applicant information in the provided text areas
+
+4. Click "Process Application" to analyze the candidate and view results
+
+### Command Line
+
+Run the application via command line:
 
 ```bash
 python recruiter.py
 ```
+
+This will process the sample job requirements and applicant data defined in the main function.
 
 ### Configuration and Customization
 
@@ -67,6 +88,7 @@ To adapt the system for specific recruitment scenarios:
 - `config.py` - System configuration and state definitions
 - `functions.py` - Core processing functions implementing the recruitment workflow logic
 - `recruiter.py` - Main application orchestrating the workflow graph
+- `ui.py` - Streamlit web interface for the application
 
 ## Implementation Guide
 
@@ -75,6 +97,7 @@ To extend functionality:
 1. Implement additional processing functions in `functions.py`
 2. Update the workflow graph in the `create_workflow()` method
 3. Extend the State TypedDict in `config.py` for any additional data requirements
+4. Enhance the UI in `ui.py` to support new features
 
 ## Error Management
 

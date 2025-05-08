@@ -5,3 +5,5 @@ langgraph
 openai
 python-dotenv
 typing-extensions
+streamlit
+streamlit-chat
