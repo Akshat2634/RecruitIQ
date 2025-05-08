@@ -1,4 +1,4 @@
-# Recruitment Agency LangGraph Application
+# RecruitIQ LangGraph Application
 
 ## Overview
 
