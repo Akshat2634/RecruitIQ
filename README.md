@@ -4,6 +4,9 @@
 
 This enterprise-grade application leverages Large Language Models (LLMs) with LangGraph to automate and streamline the recruitment process. The system analyzes candidate applications against job requirements, categorizes applicants based on experience level, and generates contextually appropriate response communications.
 
+<img width="1301" alt="Screenshot 2025-06-08 at 5 47 15 PM" src="https://github.com/user-attachments/assets/9d5b7089-25fe-4536-9c12-f24eb8c69c95" />
+
+
 ## Core Features
 
 - **Experience Classification Engine**: Accurately categorizes candidates as Entry, Mid, or Senior level based on comprehensive profile analysis
